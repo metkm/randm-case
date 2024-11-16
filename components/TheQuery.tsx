@@ -15,6 +15,7 @@ import {
 import { useShallow } from "zustand/shallow";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import { useDebouncedCallback } from "use-debounce";
 
 interface Props {
   onSearch?: (query: string) => void;
@@ -51,6 +52,10 @@ export function TheQuery(props: Props) {
     props.onSearch?.(queryValue.current);
   }, [props.onSearch]);
 
+  const debouncedSearch = useDebouncedCallback(() => {
+    handleSearch()
+  }, 500)
+
   const arrowAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
       {
@@ -86,7 +91,10 @@ export function TheQuery(props: Props) {
       <View className="flex-row items-center justify-between">
         <TextInput
           placeholder="Search something"
-          onChange={handleQueryChange}
+          onChange={(event) => {
+            handleQueryChange(event)
+            debouncedSearch()
+          }}
           onSubmitEditing={handleSearch}
           multiline={false}
           returnKeyType="search"

@@ -6,8 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useVisible } from "@/hooks/useVisible";
 import { Character } from "@/types/character";
 import { useCallback } from "react";
-import { ActivityIndicator, Text, ListRenderItem, View } from "react-native";
-import { useClickOutside } from "react-native-click-outside";
+import { ActivityIndicator, ListRenderItem, View } from "react-native";
 import Animated, {
   FadeInDown,
   FadeOutUp,
@@ -23,11 +22,8 @@ import { BaseText } from "./base/BaseText";
 export default function TheSearch() {
   const setQuery = useSearchStore(useShallow((state) => state.setQuery));
   const queryHeight = useSharedValue(0);
-
   const { visible, setVisible } = useVisible();
-  const ref = useClickOutside(() => {
-    // setVisible(false);
-  });
+
 
   const mutation = useMutation({
     mutationKey: ["characters"],
@@ -90,7 +86,6 @@ export default function TheSearch() {
 
       {visible && (
         <Animated.View
-          ref={ref}
           entering={FadeInDown}
           exiting={FadeOutUp}
           className="absolute left-0 right-0 z-50 rounded-2xl border border-slate-400 overflow-hidden"

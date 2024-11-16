@@ -44,7 +44,7 @@ if (getRNMinorVersion() >= 75) {
   }
 }
 
-rootProject.name = 'case-study'
+rootProject.name = 'randm-case'
 
 dependencyResolutionManagement {
   versionCatalogs {
